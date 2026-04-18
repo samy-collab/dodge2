@@ -17,13 +17,13 @@
 
 **Purpose**: Initialize the monorepo structure, toolchain, and local development setup for frontend and backend.
 
-- [ ] T001 Create the baseline workspace structure and root package configuration in `package.json`
-- [ ] T002 [P] Initialize backend TypeScript, Fastify, and Prisma dependencies in `backend/package.json`
-- [ ] T003 [P] Initialize frontend Vite, React, and testing dependencies in `frontend/package.json`
-- [ ] T004 [P] Configure TypeScript build settings for the backend in `backend/tsconfig.json`
-- [ ] T005 [P] Configure Vite, TypeScript, and test tooling for the frontend in `frontend/tsconfig.json`
-- [ ] T006 [P] Add shared environment examples for backend and frontend in `backend/.env.example`
-- [ ] T007 [P] Add shared environment examples for backend and frontend in `frontend/.env.example`
+- [X] T001 Create the baseline workspace structure and root package configuration in `package.json`
+- [X] T002 [P] Initialize backend TypeScript, Fastify, and Prisma dependencies in `backend/package.json`
+- [X] T003 [P] Initialize frontend Vite, React, and testing dependencies in `frontend/package.json`
+- [X] T004 [P] Configure TypeScript build settings for the backend in `backend/tsconfig.json`
+- [X] T005 [P] Configure Vite, TypeScript, and test tooling for the frontend in `frontend/tsconfig.json`
+- [X] T006 [P] Add shared environment examples for backend and frontend in `backend/.env.example`
+- [X] T007 [P] Add shared environment examples for backend and frontend in `frontend/.env.example`
 
 ---
 
@@ -33,18 +33,18 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T008 Define the core Prisma data model for accounts, relapses, trigger catalogs, emotion catalogs, and link tables in `backend/prisma/schema.prisma`
-- [ ] T009 Create the initial Prisma migration for the core schema in `backend/prisma/migrations/`
-- [ ] T010 [P] Implement the Prisma client and database bootstrap in `backend/src/lib/prisma.ts`
-- [ ] T011 [P] Implement password hashing, session cookie, and auth guard utilities in `backend/src/lib/auth.ts`
-- [ ] T012 [P] Implement auth request and response schemas from the API contract in `backend/src/api/schemas/auth.ts`
-- [ ] T013 Implement auth routes for register and login in `backend/src/api/routes/auth.ts`
-- [ ] T014 [P] Add contract coverage for `/auth/register` and `/auth/login` in `backend/tests/contract/auth.contract.test.ts`
-- [ ] T015 [P] Add backend integration coverage for authenticated session isolation in `backend/tests/integration/auth-session.test.ts`
-- [ ] T016 [P] Create the Fastify app bootstrap, route registration, and error handling in `backend/src/app.ts`
-- [ ] T017 [P] Configure the frontend app shell, router, and query client providers in `frontend/src/app/App.tsx`
-- [ ] T018 [P] Implement authentication API client and persisted session state in `frontend/src/features/auth/authClient.ts`
-- [ ] T019 Implement login and registration page flow in `frontend/src/pages/AuthPage.tsx`
+- [X] T008 Define the core Prisma data model for accounts, relapses, trigger catalogs, emotion catalogs, and link tables in `backend/prisma/schema.prisma`
+- [X] T009 Create the initial Prisma migration for the core schema in `backend/prisma/migrations/`
+- [X] T010 [P] Implement the Prisma client and database bootstrap in `backend/src/lib/prisma.ts`
+- [X] T011 [P] Implement password hashing, session cookie, and auth guard utilities in `backend/src/lib/auth.ts`
+- [X] T012 [P] Implement auth request and response schemas from the API contract in `backend/src/api/schemas/auth.ts`
+- [X] T013 Implement auth routes for register and login in `backend/src/api/routes/auth.ts`
+- [X] T014 [P] Add contract coverage for `/auth/register` and `/auth/login` in `backend/tests/contract/auth.contract.test.ts`
+- [X] T015 [P] Add backend integration coverage for authenticated session isolation in `backend/tests/integration/auth-session.test.ts`
+- [X] T016 [P] Create the Fastify app bootstrap, route registration, and error handling in `backend/src/app.ts`
+- [X] T017 [P] Configure the frontend app shell, router, and query client providers in `frontend/src/app/App.tsx`
+- [X] T018 [P] Implement authentication API client and persisted session state in `frontend/src/features/auth/authClient.ts`
+- [X] T019 Implement login and registration page flow in `frontend/src/pages/AuthPage.tsx`
 
 **Checkpoint**: Foundation ready - authenticated frontend and backend workflow is available, and all story work can proceed.
 
@@ -58,22 +58,22 @@
 
 ### Tests for User Story 1
 
-- [ ] T020 [P] [US1] Add contract coverage for `GET /relapses`, `POST /relapses`, `PATCH /relapses/{relapseId}`, and `DELETE /relapses/{relapseId}` in `backend/tests/contract/relapses.contract.test.ts`
-- [ ] T021 [P] [US1] Add backend integration coverage for relapse creation, update, deletion, and duplicate-submission protection in `backend/tests/integration/relapses.integration.test.ts`
-- [ ] T022 [P] [US1] Add frontend integration coverage for relapse form and history filtering in `frontend/tests/integration/relapses-history.test.tsx`
-- [ ] T023 [P] [US1] Add end-to-end coverage for the relapse registration and history journey in `tests/e2e/relapse-history.spec.ts`
+- [X] T020 [P] [US1] Add contract coverage for `GET /relapses`, `POST /relapses`, `PATCH /relapses/{relapseId}`, and `DELETE /relapses/{relapseId}` in `backend/tests/contract/relapses.contract.test.ts`
+- [X] T021 [P] [US1] Add backend integration coverage for relapse creation, update, deletion, and duplicate-submission protection in `backend/tests/integration/relapses.integration.test.ts`
+- [X] T022 [P] [US1] Add frontend integration coverage for relapse form and history filtering in `frontend/tests/integration/relapses-history.test.tsx`
+- [X] T023 [P] [US1] Add end-to-end coverage for the relapse registration and history journey in `tests/e2e/relapse-history.spec.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T024 [P] [US1] Implement relapse request and response schemas from the API contract in `backend/src/api/schemas/relapses.ts`
-- [ ] T025 [P] [US1] Implement relapse persistence and catalog upsert logic in `backend/src/repositories/relapseRepository.ts`
-- [ ] T026 [P] [US1] Implement relapse validation rules for past timestamps and duplicate-submission confirmation in `backend/src/domain/relapseRules.ts`
-- [ ] T027 [US1] Implement relapse create, list, update, and delete services in `backend/src/services/relapseService.ts`
-- [ ] T028 [US1] Implement authenticated relapse routes with period filtering in `backend/src/api/routes/relapses.ts`
-- [ ] T029 [P] [US1] Implement frontend relapse API methods in `frontend/src/services/relapsesApi.ts`
-- [ ] T030 [P] [US1] Implement relapse form state, validation, and submission flow in `frontend/src/features/relapses/RelapseForm.tsx`
-- [ ] T031 [P] [US1] Implement relapse history list, filters, and item actions in `frontend/src/features/relapses/RelapseHistory.tsx`
-- [ ] T032 [US1] Compose the relapse capture and history screen in `frontend/src/pages/RelapsesPage.tsx`
+- [X] T024 [P] [US1] Implement relapse request and response schemas from the API contract in `backend/src/api/schemas/relapses.ts`
+- [X] T025 [P] [US1] Implement relapse persistence and catalog upsert logic in `backend/src/repositories/relapseRepository.ts`
+- [X] T026 [P] [US1] Implement relapse validation rules for past timestamps and duplicate-submission confirmation in `backend/src/domain/relapseRules.ts`
+- [X] T027 [US1] Implement relapse create, list, update, and delete services in `backend/src/services/relapseService.ts`
+- [X] T028 [US1] Implement authenticated relapse routes with period filtering in `backend/src/api/routes/relapses.ts`
+- [X] T029 [P] [US1] Implement frontend relapse API methods in `frontend/src/services/relapsesApi.ts`
+- [X] T030 [P] [US1] Implement relapse form state, validation, and submission flow in `frontend/src/features/relapses/RelapseForm.tsx`
+- [X] T031 [P] [US1] Implement relapse history list, filters, and item actions in `frontend/src/features/relapses/RelapseHistory.tsx`
+- [X] T032 [US1] Compose the relapse capture and history screen in `frontend/src/pages/RelapsesPage.tsx`
 
 **Checkpoint**: User Story 1 is functional and independently testable as the MVP increment.
 
@@ -87,21 +87,21 @@
 
 ### Tests for User Story 2
 
-- [ ] T033 [P] [US2] Add contract coverage for `GET /analytics/triggers` in `backend/tests/contract/analytics.contract.test.ts`
-- [ ] T034 [P] [US2] Add backend unit coverage for trigger aggregation and minimum-data thresholds in `backend/tests/unit/trigger-patterns.test.ts`
-- [ ] T035 [P] [US2] Add frontend integration coverage for analytics loading, insufficient-data, and drilldown states in `frontend/tests/integration/analytics-page.test.tsx`
-- [ ] T036 [P] [US2] Add end-to-end coverage for recurring-trigger analysis in `tests/e2e/analytics.spec.ts`
+- [X] T033 [P] [US2] Add contract coverage for `GET /analytics/triggers` in `backend/tests/contract/analytics.contract.test.ts`
+- [X] T034 [P] [US2] Add backend unit coverage for trigger aggregation and minimum-data thresholds in `backend/tests/unit/trigger-patterns.test.ts`
+- [X] T035 [P] [US2] Add frontend integration coverage for analytics loading, insufficient-data, and drilldown states in `frontend/tests/integration/analytics-page.test.tsx`
+- [X] T036 [P] [US2] Add end-to-end coverage for recurring-trigger analysis in `tests/e2e/analytics.spec.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T037 [P] [US2] Implement analytics response schemas from the API contract in `backend/src/api/schemas/analytics.ts`
-- [ ] T038 [P] [US2] Implement trigger and context aggregation queries in `backend/src/repositories/analyticsRepository.ts`
-- [ ] T039 [P] [US2] Implement recurring-pattern calculations and insufficient-data rules in `backend/src/domain/triggerInsights.ts`
-- [ ] T040 [US2] Implement trigger analytics service and supporting-relapse detail mapping in `backend/src/services/analyticsService.ts`
-- [ ] T041 [US2] Implement the authenticated analytics route in `backend/src/api/routes/analytics.ts`
-- [ ] T042 [P] [US2] Implement frontend analytics API methods in `frontend/src/services/analyticsApi.ts`
-- [ ] T043 [P] [US2] Implement recurring trigger cards and supporting-episode drilldown UI in `frontend/src/features/analytics/TriggerInsightsPanel.tsx`
-- [ ] T044 [US2] Compose the analytics page with period filters and empty-state messaging in `frontend/src/pages/AnalyticsPage.tsx`
+- [X] T037 [P] [US2] Implement analytics response schemas from the API contract in `backend/src/api/schemas/analytics.ts`
+- [X] T038 [P] [US2] Implement trigger and context aggregation queries in `backend/src/repositories/analyticsRepository.ts`
+- [X] T039 [P] [US2] Implement recurring-pattern calculations and insufficient-data rules in `backend/src/domain/triggerInsights.ts`
+- [X] T040 [US2] Implement trigger analytics service and supporting-relapse detail mapping in `backend/src/services/analyticsService.ts`
+- [X] T041 [US2] Implement the authenticated analytics route in `backend/src/api/routes/analytics.ts`
+- [X] T042 [P] [US2] Implement frontend analytics API methods in `frontend/src/services/analyticsApi.ts`
+- [X] T043 [P] [US2] Implement recurring trigger cards and supporting-episode drilldown UI in `frontend/src/features/analytics/TriggerInsightsPanel.tsx`
+- [X] T044 [US2] Compose the analytics page with period filters and empty-state messaging in `frontend/src/pages/AnalyticsPage.tsx`
 
 **Checkpoint**: User Story 2 is independently functional on top of authenticated user data.
 
@@ -115,21 +115,21 @@
 
 ### Tests for User Story 3
 
-- [ ] T045 [P] [US3] Add contract coverage for `GET /progress/summary` in `backend/tests/contract/progress.contract.test.ts`
-- [ ] T046 [P] [US3] Add backend unit coverage for streak and period summary calculations in `backend/tests/unit/progress-summary.test.ts`
-- [ ] T047 [P] [US3] Add frontend integration coverage for progress summary filters and comparison states in `frontend/tests/integration/progress-page.test.tsx`
-- [ ] T048 [P] [US3] Add end-to-end coverage for the personal progress journey in `tests/e2e/progress.spec.ts`
+- [X] T045 [P] [US3] Add contract coverage for `GET /progress/summary` in `backend/tests/contract/progress.contract.test.ts`
+- [X] T046 [P] [US3] Add backend unit coverage for streak and period summary calculations in `backend/tests/unit/progress-summary.test.ts`
+- [X] T047 [P] [US3] Add frontend integration coverage for progress summary filters and comparison states in `frontend/tests/integration/progress-page.test.tsx`
+- [X] T048 [P] [US3] Add end-to-end coverage for the personal progress journey in `tests/e2e/progress.spec.ts`
 
 ### Implementation for User Story 3
 
-- [ ] T049 [P] [US3] Implement progress response schemas from the API contract in `backend/src/api/schemas/progress.ts`
-- [ ] T050 [P] [US3] Implement period summary queries for relapse frequency and interval calculations in `backend/src/repositories/progressRepository.ts`
-- [ ] T051 [P] [US3] Implement streak and comparative progress calculations in `backend/src/domain/progressMetrics.ts`
-- [ ] T052 [US3] Implement the progress summary service in `backend/src/services/progressService.ts`
-- [ ] T053 [US3] Implement the authenticated progress route in `backend/src/api/routes/progress.ts`
-- [ ] T054 [P] [US3] Implement frontend progress API methods in `frontend/src/services/progressApi.ts`
-- [ ] T055 [P] [US3] Implement progress KPI cards and period comparison charts in `frontend/src/features/progress/ProgressSummaryPanel.tsx`
-- [ ] T056 [US3] Compose the progress page with period filtering in `frontend/src/pages/ProgressPage.tsx`
+- [X] T049 [P] [US3] Implement progress response schemas from the API contract in `backend/src/api/schemas/progress.ts`
+- [X] T050 [P] [US3] Implement period summary queries for relapse frequency and interval calculations in `backend/src/repositories/progressRepository.ts`
+- [X] T051 [P] [US3] Implement streak and comparative progress calculations in `backend/src/domain/progressMetrics.ts`
+- [X] T052 [US3] Implement the progress summary service in `backend/src/services/progressService.ts`
+- [X] T053 [US3] Implement the authenticated progress route in `backend/src/api/routes/progress.ts`
+- [X] T054 [P] [US3] Implement frontend progress API methods in `frontend/src/services/progressApi.ts`
+- [X] T055 [P] [US3] Implement progress KPI cards and period comparison charts in `frontend/src/features/progress/ProgressSummaryPanel.tsx`
+- [X] T056 [US3] Compose the progress page with period filtering in `frontend/src/pages/ProgressPage.tsx`
 
 **Checkpoint**: User Story 3 is independently functional and validates personal progress tracking.
 
@@ -139,11 +139,11 @@
 
 **Purpose**: Finish cross-story quality, documentation, and release validation work.
 
-- [ ] T057 [P] Add backend seed data for local development and test scenarios in `backend/prisma/seed.ts`
-- [ ] T058 [P] Add responsive navigation and authenticated route shell shared by relapse, analytics, and progress pages in `frontend/src/components/AppShell.tsx`
-- [ ] T059 [P] Add accessibility and mobile interaction refinements for the main user journeys in `frontend/src/styles/app.css`
-- [ ] T060 [P] Document local setup, scripts, and environment usage in `README.md`
-- [ ] T061 Run the quickstart validation flow and record any required adjustments in `specs/002-reduzir-habitos-compulsivos/quickstart.md`
+- [X] T057 [P] Add backend seed data for local development and test scenarios in `backend/prisma/seed.ts`
+- [X] T058 [P] Add responsive navigation and authenticated route shell shared by relapse, analytics, and progress pages in `frontend/src/components/AppShell.tsx`
+- [X] T059 [P] Add accessibility and mobile interaction refinements for the main user journeys in `frontend/src/styles/app.css`
+- [X] T060 [P] Document local setup, scripts, and environment usage in `README.md`
+- [X] T061 Run the quickstart validation flow and record any required adjustments in `specs/002-reduzir-habitos-compulsivos/quickstart.md`
 
 ---
 

@@ -19,11 +19,11 @@ Preparar o ambiente de desenvolvimento e validar o MVP web com backend, frontend
 
 ## Passos iniciais
 
-1. Instalar dependências do frontend e backend.
-2. Configurar variáveis de ambiente para ambos os projetos.
-3. Criar o banco de dados local e aplicar migrações iniciais.
-4. Popular dados mínimos de desenvolvimento: um usuário e catálogos base de gatilhos e emoções.
-5. Iniciar backend e frontend em modo de desenvolvimento.
+1. Instalar dependências do frontend e backend com `npm install`.
+2. Configurar variáveis de ambiente copiando `backend/.env.example` e `frontend/.env.example`.
+3. Criar o banco de dados local e aplicar a migração com `npm run prisma:migrate --workspace backend`.
+4. Popular dados mínimos de desenvolvimento com `npm run prisma:seed --workspace backend`.
+5. Iniciar backend e frontend em modo de desenvolvimento com `npm run dev`.
 
 ## Fluxos a validar primeiro
 
@@ -47,3 +47,8 @@ Preparar o ambiente de desenvolvimento e validar o MVP web com backend, frontend
 - Histórico, análise e progresso permanecem consistentes após mutações.
 - Jornadas principais funcionam em viewport mobile e desktop.
 - Dados de um usuário não ficam visíveis para outro usuário autenticado.
+
+## Registro de validação
+
+- Implementação inicial criada em `2026-04-18`.
+- A validação automatizada completa depende da instalação das dependências do monorepo e de um PostgreSQL acessível localmente.
