@@ -1,0 +1,380 @@
+openapi: 3.1.0
+info:
+  title: Dodge2 Habit Recovery API
+  version: 0.1.0
+  description: API inicial para registro de recaídas, análise de gatilhos e acompanhamento de progresso pessoal.
+servers:
+  - url: https://api.example.com
+security:
+  - sessionAuth: []
+tags:
+  - name: Auth
+  - name: Relapses
+  - name: Analytics
+  - name: Progress
+paths:
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Cria a conta do usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Conta criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSession'
+        '409':
+          description: E-mail já cadastrado
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Autentica o usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Sessão autenticada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSession'
+        '401':
+          description: Credenciais inválidas
+  /relapses:
+    get:
+      tags: [Relapses]
+      summary: Lista recaídas do usuário autenticado
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Histórico retornado
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RelapseEvent'
+    post:
+      tags: [Relapses]
+      summary: Registra uma recaída
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRelapseRequest'
+      responses:
+        '201':
+          description: Recaída registrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RelapseEvent'
+        '422':
+          description: Dados inválidos
+  /relapses/{relapseId}:
+    patch:
+      tags: [Relapses]
+      summary: Atualiza uma recaída existente
+      parameters:
+        - $ref: '#/components/parameters/RelapseId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRelapseRequest'
+      responses:
+        '200':
+          description: Recaída atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RelapseEvent'
+        '404':
+          description: Registro não encontrado
+    delete:
+      tags: [Relapses]
+      summary: Remove uma recaída
+      parameters:
+        - $ref: '#/components/parameters/RelapseId'
+      responses:
+        '204':
+          description: Recaída removida
+        '404':
+          description: Registro não encontrado
+  /analytics/triggers:
+    get:
+      tags: [Analytics]
+      summary: Retorna gatilhos e padrões recorrentes do usuário
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Insights calculados
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items, hasEnoughData]
+                properties:
+                  hasEnoughData:
+                    type: boolean
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TriggerPatternInsight'
+  /progress/summary:
+    get:
+      tags: [Progress]
+      summary: Retorna resumo de progresso do usuário
+      parameters:
+        - in: query
+          name: from
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: to
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Resumo do período
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProgressSummary'
+components:
+  securitySchemes:
+    sessionAuth:
+      type: apiKey
+      in: cookie
+      name: dodge2_session
+  parameters:
+    RelapseId:
+      in: path
+      name: relapseId
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    RegisterRequest:
+      type: object
+      required: [email, password, displayName, timezone]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+        displayName:
+          type: string
+          minLength: 2
+          maxLength: 80
+        timezone:
+          type: string
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    AuthSession:
+      type: object
+      required: [user]
+      properties:
+        user:
+          $ref: '#/components/schemas/UserProfile'
+    UserProfile:
+      type: object
+      required: [id, email, displayName, timezone]
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        displayName:
+          type: string
+        timezone:
+          type: string
+    CreateRelapseRequest:
+      type: object
+      required: [occurredAt, intensity]
+      properties:
+        occurredAt:
+          type: string
+          format: date-time
+        intensity:
+          type: integer
+          minimum: 1
+          maximum: 5
+        notes:
+          type: string
+          maxLength: 2000
+        locationContext:
+          type: string
+          maxLength: 120
+        activityContext:
+          type: string
+          maxLength: 120
+        triggers:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+        emotions:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+    UpdateRelapseRequest:
+      type: object
+      properties:
+        occurredAt:
+          type: string
+          format: date-time
+        intensity:
+          type: integer
+          minimum: 1
+          maximum: 5
+        notes:
+          type: string
+          maxLength: 2000
+        locationContext:
+          type: string
+          maxLength: 120
+        activityContext:
+          type: string
+          maxLength: 120
+        triggers:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+        emotions:
+          type: array
+          items:
+            type: string
+          maxItems: 10
+    RelapseEvent:
+      type: object
+      required:
+        - id
+        - occurredAt
+        - recordedAt
+        - intensity
+        - triggers
+        - emotions
+      properties:
+        id:
+          type: string
+          format: uuid
+        occurredAt:
+          type: string
+          format: date-time
+        recordedAt:
+          type: string
+          format: date-time
+        intensity:
+          type: integer
+        notes:
+          type: string
+        locationContext:
+          type: string
+        activityContext:
+          type: string
+        triggers:
+          type: array
+          items:
+            type: string
+        emotions:
+          type: array
+          items:
+            type: string
+    TriggerPatternInsight:
+      type: object
+      required: [patternKey, patternType, label, occurrenceCount, occurrenceRate, supportingRelapseIds]
+      properties:
+        patternKey:
+          type: string
+        patternType:
+          type: string
+          enum: [trigger, emotion, time_of_day, activity, location]
+        label:
+          type: string
+        occurrenceCount:
+          type: integer
+        occurrenceRate:
+          type: number
+        supportingRelapseIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+    ProgressSummary:
+      type: object
+      required:
+        - periodStart
+        - periodEnd
+        - relapsesInPeriod
+        - currentStreakDays
+        - bestStreakDays
+        - avgIntervalDays
+      properties:
+        periodStart:
+          type: string
+          format: date
+        periodEnd:
+          type: string
+          format: date
+        relapsesInPeriod:
+          type: integer
+        currentStreakDays:
+          type: integer
+        bestStreakDays:
+          type: integer
+        avgIntervalDays:
+          type: number

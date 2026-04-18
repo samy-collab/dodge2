@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model UserAccount {
+  id           String               @id @default(uuid()) @db.Uuid
+  email        String               @unique
+  passwordHash String               @map("password_hash")
+  displayName  String               @map("display_name")
+  timezone     String
+  createdAt    DateTime             @default(now()) @map("created_at")
+  updatedAt    DateTime             @updatedAt @map("updated_at")
+  lastLoginAt  DateTime?            @map("last_login_at")
+  relapses     RelapseEvent[]
+  triggers     TriggerCatalogItem[]
+  emotions     EmotionCatalogItem[]
+
+  @@map("user_accounts")
+}
+
+model RelapseEvent {
+  id              String               @id @default(uuid()) @db.Uuid
+  userId          String               @map("user_id") @db.Uuid
+  occurredAt      DateTime             @map("occurred_at")
+  recordedAt      DateTime             @default(now()) @map("recorded_at")
+  intensity       Int
+  notes           String?
+  locationContext String?              @map("location_context")
+  activityContext String?              @map("activity_context")
+  updatedAt       DateTime             @updatedAt @map("updated_at")
+  deletedAt       DateTime?            @map("deleted_at")
+  user            UserAccount          @relation(fields: [userId], references: [id])
+  triggerLinks    RelapseTriggerLink[]
+  emotionLinks    RelapseEmotionLink[]
+
+  @@index([userId, occurredAt(sort: Desc)])
+  @@map("relapse_events")
+}
+
+model TriggerCatalogItem {
+  id              String               @id @default(uuid()) @db.Uuid
+  userId          String               @map("user_id") @db.Uuid
+  label           String
+  normalizedLabel String               @map("normalized_label")
+  createdAt       DateTime             @default(now()) @map("created_at")
+  archivedAt      DateTime?            @map("archived_at")
+  user            UserAccount          @relation(fields: [userId], references: [id])
+  relapseLinks    RelapseTriggerLink[]
+
+  @@unique([userId, normalizedLabel])
+  @@map("trigger_catalog_items")
+}
+
+model EmotionCatalogItem {
+  id              String               @id @default(uuid()) @db.Uuid
+  userId          String               @map("user_id") @db.Uuid
+  label           String
+  normalizedLabel String               @map("normalized_label")
+  createdAt       DateTime             @default(now()) @map("created_at")
+  user            UserAccount          @relation(fields: [userId], references: [id])
+  relapseLinks    RelapseEmotionLink[]
+
+  @@unique([userId, normalizedLabel])
+  @@map("emotion_catalog_items")
+}
+
+model RelapseTriggerLink {
+  relapseEventId      String             @map("relapse_event_id") @db.Uuid
+  triggerCatalogItemId String            @map("trigger_catalog_item_id") @db.Uuid
+  relapseEvent        RelapseEvent       @relation(fields: [relapseEventId], references: [id])
+  triggerCatalogItem  TriggerCatalogItem @relation(fields: [triggerCatalogItemId], references: [id])
+
+  @@id([relapseEventId, triggerCatalogItemId])
+  @@map("relapse_trigger_links")
+}
+
+model RelapseEmotionLink {
+  relapseEventId      String             @map("relapse_event_id") @db.Uuid
+  emotionCatalogItemId String            @map("emotion_catalog_item_id") @db.Uuid
+  relapseEvent        RelapseEvent       @relation(fields: [relapseEventId], references: [id])
+  emotionCatalogItem  EmotionCatalogItem @relation(fields: [emotionCatalogItemId], references: [id])
+
+  @@id([relapseEventId, emotionCatalogItemId])
+  @@map("relapse_emotion_links")
+}
+
